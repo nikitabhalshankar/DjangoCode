@@ -28,10 +28,10 @@ class PurchaseOrder(models.Model):
     po=models.CharField(max_length=6,default=po_auto_id, unique=True)
     companyName=models.ForeignKey(Company,on_delete=models.PROTECT)
     productName=models.ForeignKey(Product,on_delete=models.PROTECT)
-    rate=models.ForeignKey(Product,on_delete=models.PROTECT)
+    rate=models.ForeignKey('Product',null=False,blank=False,on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(null=True, blank=True)
 
-    def totalPrice():
+    def get_total_Price():
         return rate*quantity
 
-    totalPrice = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    totalPrice = models.FloatField( default=get_total_Price, null=False, blank=False)
